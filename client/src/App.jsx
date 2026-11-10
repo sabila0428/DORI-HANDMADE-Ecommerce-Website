@@ -2,6 +2,7 @@
 import './App.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CategoryPage from './pages/CategoryPage'
+import ProductDetailsPage from './pages/ProductDetailsPage';
 
 const categories = [
   {
@@ -124,9 +125,15 @@ function App() {
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
+
         <Route
           path="/shop/:categoryId"
           element={<CategoryPage />}
+        />
+
+        <Route
+          path="/product/:productId"
+          element={<ProductDetailsPage />}
         />
       </Routes>
     </BrowserRouter>
