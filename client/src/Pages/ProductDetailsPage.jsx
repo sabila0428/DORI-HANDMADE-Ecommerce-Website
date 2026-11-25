@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getProductById } from '../services/productService';
+import { useCart } from '../context/CartContext';
 
 function ProductDetailsPage() {
   const { productId } = useParams();
@@ -9,6 +10,7 @@ function ProductDetailsPage() {
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const { addToCart, cartCount } = useCart();
 
   useEffect(() => {
     const fetchProduct = async () => {
@@ -64,12 +66,16 @@ function ProductDetailsPage() {
             {product.stock > 0 ? 'In Stock ♡' : 'Out of Stock'}
           </p>
 
-          <button
-            className="add-to-cart-btn"
-            disabled={product.stock <= 0}
+         <button
+          className="add-to-cart-btn"
+          disabled={product.stock <= 0}
+          onClick={() => addToCart(product)}
           >
-            Add to Cart
-          </button>
+          {product.stock <= 0 ? 'Out of Stock' : 'Add to Cart'}
+        </button>
+        <p className="cart-count">
+          Cart Items: {cartCount}
+        </p>
         </div>
       </div>
     </main>

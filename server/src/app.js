@@ -2,6 +2,7 @@
 import express from 'express';
 import cors from 'cors';
 import productRoutes from './modules/products/product.routes.js';
+import userRoutes from './modules/users/user.routes.js';
 
 const app = express();
 
@@ -12,7 +13,9 @@ app.use(cors({
 
 // Read JSON data from incoming requests
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use('/api/products', productRoutes);
+app.use('/api/users', userRoutes);
 
 // Health check API
 app.get('/api/health', (req, res) => {

@@ -3,6 +3,9 @@ import './App.css'
 import { BrowserRouter, Routes, Route, Link } from 'react-router-dom'
 import CategoryPage from './pages/CategoryPage'
 import ProductDetailsPage from './pages/ProductDetailsPage';
+import { CartProvider } from './context/CartContext';
+import CartPage from './pages/CartPage';
+import { useCart } from './context/CartContext';
 
 const categories = [
   {
@@ -43,6 +46,8 @@ const categories = [
 ]
 
 function HomePage() {
+  const { cartCount } = useCart();
+
   return (
     <div className="app">
       <nav className="navbar">
@@ -55,7 +60,9 @@ function HomePage() {
           <a href="#contact">Contact</a>
         </div>
 
-        <button className="cart-btn">Cart (0)</button>
+        <Link to="/cart" className="cart-btn">
+          Cart ({cartCount})
+        </Link>
       </nav>
 
       <section className="hero">
@@ -122,22 +129,26 @@ function HomePage() {
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<HomePage />} />
+    <CartProvider>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
 
-        <Route
-          path="/shop/:categoryId"
-          element={<CategoryPage />}
-        />
+          <Route
+            path="/shop/:categoryId"
+            element={<CategoryPage />}
+          />
 
-        <Route
-          path="/product/:productId"
-          element={<ProductDetailsPage />}
-        />
-      </Routes>
-    </BrowserRouter>
-  )
+          <Route
+            path="/product/:productId"
+            element={<ProductDetailsPage />}
+          />
+          <Route path="/cart" element={<CartPage />} />
+          
+        </Routes>
+      </BrowserRouter>
+    </CartProvider>
+  );
 }
 
 export default App
